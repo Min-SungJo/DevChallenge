@@ -33,9 +33,9 @@ body {
 }
 
 /* Customize container */
-@media (min-width: 768px) {
+@media (min-width: 800px) {
     .container {
-        max-width: 730px;
+        max-width: 760px;
     }
 }
 
@@ -46,6 +46,8 @@ body {
 /* Main marketing message and sign up button */
 .jumbotron {
     text-align: center;
+    display: flex;
+    justify-content: space-between;
     border-bottom: 1px solid #e5e5e5;
 }
 
@@ -82,4 +84,31 @@ body {
     .jumbotron {
         border-bottom: 0;
     }
+}
+
+.bottom-group {
+    display: flex;
+    justify-content: right;
+    margin-left: 1px;
+}
+
+.bottom-group > form {
+    display: flex;
+    justify-content: right;
+    margin-left: 1px;
+}
+.bottom-group > form > div {
+    display: flex;
+    justify-content: right;
+    margin-left: 1px;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+}
+
+.bottom-btn {
+    width: 100px;
+    height: 45px;
 }
