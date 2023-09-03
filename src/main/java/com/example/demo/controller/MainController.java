@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 @Controller
 public class MainController {
-    @RequestMapping("/")
-    public String main() {
-        log.info("main controller");
-        return "main";
-    }
+//    @RequestMapping("/")
+//    public String main() {
+//        log.info("main controller");
+//        return "main";
+//    }
 }
