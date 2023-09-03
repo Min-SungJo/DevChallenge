@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>날짜</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${posts}">
+            <td th:text="${post.id}"></td>
+            <td th:text="${post.title}"></td>
+            <td th:text="${post.date}"></td>
+            <td th:text="${post.writer}"></td>
+            <td>
+                <a href="#" th:href="@{/posts/{id}/edit (id=${post.id})}" class="btn btn-primary"
+                   role="button">수정</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</html>
