@@ -2,7 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div class="header" th:fragment="bodyHeader">
     <ul class="nav nav-pills pull-right">
-        <li><a href="/">Main</a></li>
+        <li><a href="/">메인으로</a></li>
+        <li th:if="${session.loginMember == null}"><a href="/members/join">회원가입</a>
+            <a href="/members/login">로그인</a></li>
+        <li th:unless="${session.loginMember == null}"><a href="/members/logout">로그아웃</a></li>
     </ul>
-    <a href="/"><h3 class="text-muted">HELLO SHOP</h3></a>
+    <ul class="nav nav-pills pull-right top-nickname">
+        <li>
+            <p th:text="${session.loginMember}"></p>
+        </li>
+    </ul>
+    <a href="/"><h3 class="text-muted">게시판 V1</h3></a>
 </div>

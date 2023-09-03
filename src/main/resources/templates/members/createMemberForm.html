@@ -23,7 +23,7 @@
                    th:class="${#fields.hasErrors('password')}? 'form-control fieldError' : 'form-control'">
             <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect date</p>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">회원가입</button>
     </form>
     <br/>
     <div th:replace="fragments/footer :: footer" />
