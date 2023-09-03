@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.controller.MemberForm;
 import com.example.demo.domain.Member;
 import com.example.demo.repository.MemberRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,23 +35,40 @@ public class MemberService {
     /**
      * 회원 조회
      */
-    public Member findOne(Long memberId) {
-        return memberRepository.findOne(memberId);
+    public Member findOne(Long id) {
+        return memberRepository.findOne(id);
+    }
+
+    public Member findOneWithNickName(String nickname) {
+        return memberRepository.findByNickname(nickname)
+                .orElse(null);
     }
 
     /**
-     * 회원 수정
+     * 회원 수정 -> 비밀번호
      */
     @Transactional
-    public void update(Long id, String nickname) {
+    public void update(Long id, String password) {
         Member member = memberRepository.findOne(id);
-        member.setNickname(nickname);
+        member.updateMember(password);
     }
 
     public boolean login(MemberForm form) {
-        Member dbMember = memberRepository.findByNickname(form.getNickname());
-        if(!form.getNickname().equals(dbMember.getNickname())) return false;
-        if(!form.getPassword().equals(dbMember.getPassword())) return false;
-        return true;
+        Member dbMember = memberRepository.findByNickname(form.getNickname())
+                .filter(m -> m.getPassword().equals(form.getPassword()))
+                .orElse(null);
+        return dbMember != null;
+    }
+
+    /**
+     * 회원 로그인 세션 확인
+     */
+    public boolean isLogin(HttpSession session) {
+        Object attribute = session.getAttribute("loginMember");
+        if(attribute != null) {
+            String loginNickname = attribute.toString();
+            return memberRepository.findByNickname(loginNickname).isPresent();
+        }
+        return false;
     }
 }
