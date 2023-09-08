@@ -44,8 +44,8 @@ jobs:
     - name: web docker build and push
       run: |
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}}
-        docker build -t ${{ secrets.DOCKER_REPO }}/sungjomin .
-        docker push ${{ secrets.DOCKER_REPO }}/sungjomin
+        docker build -t ${{ secrets.DOCKER_REPO }}/min .
+        docker push ${{ secrets.DOCKER_REPO }}/min
 
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@master
@@ -56,8 +56,8 @@ jobs:
         
         script: |
           sudo docker rm -f $(docker ps -qa)
-          sudo docker pull ${{ secrets.DOCKER_REPO }}/sungjomin
-          sudo docker pull ${{ secrets.DOCKER_REPO }}/sungjomin-nginx
+          sudo docker pull ${{ secrets.DOCKER_REPO }}/min
+          sudo docker pull ${{ secrets.DOCKER_REPO }}/min-nginx
           docker-compose up -d
           docker image prune -f
           
