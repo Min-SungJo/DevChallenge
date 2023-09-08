@@ -1,0 +1,63 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
+
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: make application-prod.yml
+      run: |
+        cd./src/main/resources
+        touch ./application-prod.yml
+        echo "${{ secrets.APPLICATION_PROD }}" > ./application-prod.yml
+
+    - name: Grant execute permission for gradlew
+      run: chmod + gradlew
+      
+    - name: Build with Gradle
+      run: ./gradlew bootJar
+
+    - name: web docker build and push
+      run: |
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}}
+        docker build -t ${{ secrets.DOCKER_REPO }}/sungjomin .
+        docker push ${{ secrets.DOCKER_REPO }}/sungjomin
+
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ec2-user
+        key: ${{ secrets.PEM_KEY }}
+        
+        script: |
+          sudo docker rm -f $(docker ps -qa)
+          sudo docker pull ${{ secrets.DOCKER_REPO }}/sungjomin
+          sudo docker pull ${{ secrets.DOCKER_REPO }}/sungjomin-nginx
+          docker-compose up -d
+          docker image prune -f
+          
