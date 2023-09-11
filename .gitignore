@@ -8,6 +8,8 @@ application-local.yml
 application.yml
 application.properties
 
+nginx_secrets.txt
+
 ### STS ###
 .apt_generated
 .classpath

@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  web:
+    container_name: web
+    image: sungjomin/min
+    expose:
+      - "8080"
+    ports:
+      - "8080:8080"
+    secrets:
+      - nginx_secrets
+
+  nginx:
+    container_name: nginx
+    image: sungjomin/min-nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+secrets:
+  nginx_secrets:
+    file: ./nginx.txt
