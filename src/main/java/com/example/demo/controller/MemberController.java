@@ -19,13 +19,13 @@ public class MemberController {
     @GetMapping("/members/join")
     public String createForm(Model model) {
         model.addAttribute("memberForm", new MemberForm());
-        return "/members/createMemberForm";
+        return "members/createMemberForm";
     }
 
     @PostMapping("/members/join")
     public String create(@Valid MemberForm form, BindingResult result) {
         if (result.hasErrors()) {
-            return "/members/createMemberForm";
+            return "members/createMemberForm";
         }
         Member member = Member.createMember(form.getNickname(), form.getPassword());
         memberService.join(member);
@@ -35,13 +35,13 @@ public class MemberController {
     @GetMapping("/members/login")
     public String loginForm(Model model) {
         model.addAttribute("memberForm", new MemberForm());
-        return "/members/loginMemberForm";
+        return "members/loginMemberForm";
     }
 
     @PostMapping("/members/login")
     public String login(@Valid MemberForm form, BindingResult result, HttpSession session) {
         if (result.hasErrors()) { // 빈 값이 있는가
-            return "/members/loginMemberForm";
+            return "members/loginMemberForm";
         }
         if (memberService.login(form)) {
             session.setAttribute("loginMember", form.getNickname());
@@ -53,7 +53,7 @@ public class MemberController {
             return "redirect:" + redirect;
         } else { // 로그인 실패
             result.reject("loginFail", "아이디 또는 비밀번호를 확인하여 주십시오.");
-            return "/members/loginMemberForm";
+            return "members/loginMemberForm";
         }
     }
 
