@@ -1,9 +1,12 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header"/>
+<head th:replace="~{fragments/header :: header}">
+    <title>updatePost</title>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+</head>
 <body>
 <div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div th:replace="~{fragments/bodyHeader :: bodyHeader}"></div>
     <form th:object="${form}" method="post">
         <!-- id -->
         <input type="hidden" th:field="*{id}"/>
@@ -24,7 +27,7 @@
             삭제
         </button>
     </form>
-    <div th:replace="fragments/footer :: footer"/>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </div> <!-- /container -->
 </body>
 </html>
