@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<div class="header" th:fragment="bodyHeader">
+<th:block class="header" th:fragment="bodyHeader">
     <ul class="nav nav-pills pull-right">
         <li><a href="/">메인으로</a></li>
         <li th:if="${session.loginMember == null}"><a href="/members/join">회원가입</a>
@@ -13,4 +13,5 @@
         </li>
     </ul>
     <a href="/"><h3 class="text-muted">게시판 V1</h3></a>
-</div>
+</th:block>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" integrity="sha384-
+  ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/jumbotron-narrow.css}" rel="stylesheet">
+
+    <th:block layout:fragment="script"></th:block>
+    <th:block layout:fragment="css"></th:block>
+
+</head>
+
+<th:block th:replace="~{fragments/header::header}"></th:block>
+<body>
+<th:block th:replace="~{fragments/bodyHeader::bodyHeader}"></th:block>
+<div layout:fragment="content" class="content"></div>
+</body>
+<th:block th:replace="~{fragments/footer::footer}"></th:block>
+
+</html>
