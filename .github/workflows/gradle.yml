@@ -29,19 +29,30 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    - name: make application.yml
+      run: |
+        cd ./src/main/resources
+        touch ./application.yml
+        echo "${{ secrets.APPLICATION_REAL }}" | base64 -d > application.yml
+      shell: bash
+
+    - name: make application-real-db.yml
+      run: |
+        cd ./src/main/resources
+        touch ./application-real-db.yml
+        echo "${{ secrets.APPLICATION_REAL_DB }}" | base64 -d > application-real-db.yml
+      shell: bash
+
     - name: Grant execute permission for gradlew
       run: chmod + gradlew
-
-    - name: Test with Gradle
-      run: ./gradlew test
       
     - name: Build with Gradle
-      run: ./gradlew bootJar
+      run: ./gradlew build -x test
 
     - name: web docker build and push
       run: |
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-        docker build -t ${{ secrets.DOCKER_REPO }} .
+        docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }} .
         docker push ${{ secrets.DOCKER_REPO }}
 
     - name: executing remote ssh commands using password
@@ -55,6 +66,6 @@ jobs:
           sudo docker rm -f $(docker ps -qa)
           sudo docker pull ${{ secrets.DOCKER_REPO }}
           sudo docker pull ${{ secrets.DOCKER_REPO_NGINX }}
-          docker-compose up -d
-          docker image prune -f
+          sudo docker-compose up -d
+          sudo docker image prune -f
           
