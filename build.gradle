@@ -44,3 +44,7 @@ jar {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+tasks.withType(org.gradle.api.tasks.compile.JavaCompile) {
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+}
