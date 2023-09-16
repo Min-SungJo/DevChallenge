@@ -47,7 +47,7 @@ jobs:
       run: chmod + ./gradlew
       
     - name: Build with Gradle
-      run: ./gradlew clean build -x exclude-task test
+      run: ./gradlew clean build --exclude-task test
 
     - name: web docker build and push
       run: |
