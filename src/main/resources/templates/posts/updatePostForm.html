@@ -18,15 +18,20 @@
                 <label th:for="contents">내용</label>
                 <input type="text" th:field="*{contents}" class="form-control" placeholder="가격을 입력하세요"/>
             </div>
-            <button type="submit" class="btn btn-primary">
+            <button id="hidden" type="submit" class="btn btn-primary">
                 수정
             </button>
         </form>
-        <form th:action="@{/posts/{id}/delete (id=${form.id})}" method="post">
-            <button type="submit" class="btn btn-primary">
-                삭제
+        <div class="bottom-group">
+            <button id="trigger" class="btn btn-primary" style="display: none;">
+                수정
             </button>
-        </form>
+            <form th:action="@{/posts/{id}/delete (id=${form.id})}" method="post">
+                <button type="submit" class="btn btn-primary">
+                    삭제
+                </button>
+            </form>
+        </div>
     </div> <!-- /container -->
 </th:block>
 </body>

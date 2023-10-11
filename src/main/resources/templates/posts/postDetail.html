@@ -30,23 +30,20 @@
                 <tr>
                     <td th:attr="colspan=${5}" th:text="${form.contents}"></td>
                 </tr>
-                <tr>
-                    <td rowspan="5">
-                        <form th:action="@{/posts/{id}/edit (id=${form.id})}" method="get">
-                            <button type="submit" class="btn btn-primary">
-                                수정
-                            </button>
-                        </form>
-                        <form th:action="@{/posts/{id}/delete (id=${form.id})}" method="post">
-                            <button type="submit" class="btn btn-primary">
-                                삭제
-                            </button>
-                        </form>
-                    </td>
-                </tr>
                 </tbody>
             </table>
-
+            <div class="bottom-group">
+                <form th:action="@{/posts/{id}/edit (id=${form.id})}" method="get">
+                    <button type="submit" class="btn btn-primary">
+                        수정
+                    </button>
+                </form>
+                <form th:action="@{/posts/{id}/delete (id=${form.id})}" method="post">
+                    <button type="submit" class="btn btn-primary">
+                        삭제
+                    </button>
+                </form>
+            </div>
         </div>
         <div th:unless="${form}">
             <p>게시물을 찾을 수 없습니다.</p>

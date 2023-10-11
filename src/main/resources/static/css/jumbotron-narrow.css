@@ -89,18 +89,17 @@ body {
 .bottom-group {
     display: flex;
     justify-content: right;
-    margin-left: 1px;
 }
 
 .bottom-group > form {
     display: flex;
     justify-content: right;
-    margin-left: 1px;
+    padding-left: 2px;
 }
 .bottom-group > form > div {
     display: flex;
     justify-content: right;
-    margin-left: 1px;
+    padding-right: 2px;
 }
 
 .nav {
@@ -111,4 +110,5 @@ body {
 .bottom-btn {
     width: 100px;
     height: 45px;
+    margin-right: 2px;
 }
