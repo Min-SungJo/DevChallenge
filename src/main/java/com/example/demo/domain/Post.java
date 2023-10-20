@@ -22,6 +22,10 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @Enumerated(value = EnumType.STRING)
+    private PostCategory category; // 게시글 범주 [질문 글, 일반 글]
+
     @Column(nullable = false)
     private String title;
 
@@ -35,9 +39,10 @@ public class Post {
     @Enumerated(value = EnumType.STRING)
     private PostStatus status; // 게시글 상태 [WRITE, DELETE]
 
-    public static Post createPost(Member member, String title, String contents, Date date) {
+    public static Post createPost(Member member,PostCategory category, String title, String contents, Date date) {
         Post post = new Post();
         post.member = member;
+        post.category = category;
         post.title = title;
         post.contents = contents;
         post.date = date;
@@ -50,7 +55,8 @@ public class Post {
         this.viewCount += 1;
     }
 
-    public void updatePost(String title, String contents, Date date) {
+    public void updatePost(PostCategory category, String title, String contents, Date date) {
+        this.category = category;
         this.title = title;
         this.contents = contents;
         this.date = date;

@@ -30,7 +30,7 @@ public class PostService {
         //엔티티 조회
         Member member = memberRepository.findByNickname(form.getWriter()).orElse(null);
         //게시글 정보 생성
-        Post post = Post.createPost(member, form.getTitle(), form.getContents(), form.getDate());
+        Post post = Post.createPost(member, form.getCategory(), form.getTitle(), form.getContents(), form.getDate());
         //게시글 저장
         postRepository.save(post);
         return post.getId();
@@ -73,7 +73,7 @@ public class PostService {
     public void updatePost(UpdatePostDto postDto) {
         //엔티티 조회
         Post post = postRepository.findOne(postDto.getPostId());
-        post.updatePost(postDto.getTitle(), postDto.getContents(), postDto.getDate());
+        post.updatePost(postDto.getCategory(), postDto.getTitle(), postDto.getContents(), postDto.getDate());
     }
 
     /**

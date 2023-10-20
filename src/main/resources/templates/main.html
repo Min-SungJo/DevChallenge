@@ -33,6 +33,7 @@
                 <thead>
                 <tr>
                     <th>#</th>
+                    <th>카테고리</th>
                     <th>제목</th>
                     <th>작성자</th>
                     <th>조회수</th>
@@ -42,6 +43,7 @@
                 <tbody>
                 <tr th:each="post : ${posts}" th:attr="data-postId=${post.postId}" class="clickable-post">
                     <td th:text="${post.postId}"></td>
+                    <td th:text="${post.category}"></td>
                     <td th:text="${post.title}"></td>
                     <td th:text="${post.writer}"></td>
                     <td th:text="${post.viewCount}"></td>
@@ -51,7 +53,7 @@
             </table>
         </div>
         <div class="bottom-group">
-            <form th:object="${searchCondition}" method="get">
+            <form th:action="@{/}" th:object="${searchCondition}" method="get">
                 <div class="form-group">
                     <select th:field="*{title}">
                         <option th:value="writer" th:text="작성자"
@@ -60,9 +62,27 @@
                                 th:selected="${searchCondition.title == 'title'}"></option>
                     </select>
                     <input type="text" th:field="*{contents}" class="form-control"/>
+                    <select th:field="${searchCondition.category}" class="form-select" th:errorclass="field-error">
+                        <option value=null>카테고리 선택</option>
+                        <option th:each="category : ${categories}" th:value="${category}"
+                                th:text="${category.getCategory}">일반 게시글</option>
+                    </select>
+<!--                    <select th:field="*{category}">-->
+<!--                        <option th:value=null th:text="전체"-->
+<!--                                th:selected="${searchCondition.category == null}"></option>-->
+<!--                        <option th:value="QNA" th:text="질문 게시글"-->
+<!--                                th:selected="${searchCondition.category == 'QNA'}"></option>-->
+<!--                        <option th:value="NORMAL" th:text="일반 게시글"-->
+<!--                                th:selected="${searchCondition.category == 'NORMAL'}"></option>-->
+<!--                        <option th:value="PROJECT" th:text="프로젝트 게시글"-->
+<!--                                th:selected="${searchCondition.category == 'PROJECT'}"></option>-->
+<!--                    </select>-->
                 </div>
                 <button type="submit" class="btn btn-primary bottom-btn">검색하기</button>
             </form>
+            <p>
+                <a class="btn btn-lg btn-light bottom-btn" href="/">목록</a>
+            </p>
             <p>
                 <a class="btn btn-lg btn-dark bottom-btn" href="/posts/write">글쓰기</a>
             </p>

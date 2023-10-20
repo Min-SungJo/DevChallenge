@@ -1,20 +1,19 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.Post;
+import com.example.demo.domain.PostCategory;
 import com.example.demo.domain.PostStatus;
 import com.example.demo.dto.SimplePostDto;
 import com.example.demo.dto.UpdatePostDto;
 import com.example.demo.repository.PostSearch;
 import com.example.demo.service.MemberService;
 import com.example.demo.service.PostService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -28,6 +27,11 @@ public class PostController {
     private final PostService postService;
     private final MemberService memberService;
 
+    @ModelAttribute("categories")
+    public PostCategory[] categories() {
+        return PostCategory.values();
+    }
+
     @GetMapping("/posts/v1")
     public String postListV1(@ModelAttribute("postSearch") PostSearch postSearch, Model model) {
         List<Post> posts = postService.findPosts();
@@ -36,17 +40,26 @@ public class PostController {
     }
 
     @GetMapping("/")
-    public String postListV2(@ModelAttribute("searchCondition") SearchConditionForm searchCondition, Model model) {
+    public String postListV2(HttpServletRequest request, Model model, @ModelAttribute("searchCondition") SearchConditionForm searchCondition) {
         PostSearch postSearch = new PostSearch();
-        if (searchCondition.getTitle() != null) {
-            if (searchCondition.getTitle().equals("writer")) {
-                postSearch.setWriter(searchCondition.getContents());
+        // 작성자 검색이면 작성자를 채우고, 컨텐츠 검색이면 컨텐츠를 채운다
+        String title = null;
+        if (request.getParameter("title") != null) { // 값이 있고
+            title = request.getParameter("title");
+            String contents = request.getParameter("contents");
+            if (title.equals("writer")) { //작성자 검색이면
+                postSearch.setWriter(contents);
             }
-            if (searchCondition.getTitle().equals("title")) {
-                postSearch.setTitle(searchCondition.getContents());
+            if (title.equals("title")) { // 제목 검색이면
+                postSearch.setTitle(contents);
+            }
+            // 카테고리 검색
+            String category = request.getParameter("category");
+            if (category != null) {
+                postSearch.setCategory(PostCategory.valueOf(category));
             }
         }
-        postSearch.setPostStatus(PostStatus.WRITE);
+        postSearch.setPostStatus(PostStatus.WRITE); // 삭제되지 않은 게시글 보기
         List<Post> posts = postService.findPostsWithFilter(postSearch);
         List<SimplePostDto> result = posts.stream()
                 .map(SimplePostDto::new)
@@ -76,6 +89,7 @@ public class PostController {
         Post post = postService.findOne(postId);
         PostForm form = PostForm.createForm(
                 post.getId(),
+                post.getCategory(),
                 post.getTitle(),
                 post.getContents(),
                 post.getDate(),
@@ -92,6 +106,7 @@ public class PostController {
         Post post = postService.findOne(postId);
         PostForm form = PostForm.createForm(
                 post.getId(),
+                post.getCategory(),
                 post.getTitle(),
                 post.getContents(),
                 post.getDate(),
@@ -105,7 +120,7 @@ public class PostController {
     public String updatePost(@PathVariable Long postId, @ModelAttribute("form") PostForm form, HttpSession session) {
         if (!memberService.isLogin(session)) return "redirect:/";
         UpdatePostDto postDto = UpdatePostDto.createUpdatePostDto(
-                postId, form.getTitle(), form.getContents(), new Date()
+                postId, form.getCategory(), form.getTitle(), form.getContents(), new Date()
         );
         postService.updatePost(postDto);
         return "redirect:/";

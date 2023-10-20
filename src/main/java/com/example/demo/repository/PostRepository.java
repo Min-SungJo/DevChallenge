@@ -33,6 +33,11 @@ public class PostRepository {
     }
 
     public List<Post> findAllWithFilter(PostSearch postSearch) {
+        System.out.println("값!!!!");
+        System.out.println(postSearch.getPostStatus());
+        System.out.println(postSearch.getTitle());
+        System.out.println(postSearch.getWriter());
+        System.out.println(postSearch.getCategory());
         String jpql = "select p from Post p join p.member m";
         boolean isFirstCondition = true;
 
@@ -68,6 +73,17 @@ public class PostRepository {
             }
             jpql += " p.title like :title";
         }
+
+        // 카테고리 검색
+        if(StringUtils.hasText(String.valueOf(postSearch.getCategory()))) {
+            if (isFirstCondition) {
+                jpql += " where";
+                isFirstCondition = false;
+            } else {
+                jpql += " and";
+            }
+            jpql += " p.category like :category";
+        }
         TypedQuery<Post> query = em.createQuery(jpql, Post.class)
                 .setMaxResults(1000);
         if (postSearch.getPostStatus() != null) {
@@ -78,6 +94,9 @@ public class PostRepository {
         }
         if (StringUtils.hasText(postSearch.getTitle())) {
             query = query.setParameter("title", "%" + postSearch.getTitle() + "%");
+        }
+        if( StringUtils.hasText(String.valueOf(postSearch.getCategory()))) {
+            query = query.setParameter("category", postSearch.getCategory());
         }
         return query.getResultList();
     }

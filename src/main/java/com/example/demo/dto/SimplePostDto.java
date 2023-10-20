@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
 import com.example.demo.domain.Post;
+import com.example.demo.domain.PostCategory;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SimplePostDto {
     private Long postId;
+    private PostCategory category;
     private String title;
     private String contents;
     private Date date;
@@ -21,6 +23,7 @@ public class SimplePostDto {
 
     public SimplePostDto(Post post) {
         postId = post.getId();
+        category = post.getCategory();
         title = post.getTitle();
         contents = post.getContents();
         date = post.getDate();
@@ -28,9 +31,10 @@ public class SimplePostDto {
         viewCount = post.getViewCount();
     }
 
-    public static SimplePostDto createSimplePostDto(Long postId, String title, String contents, Date date, String writer, int viewCount) {
+    public static SimplePostDto createSimplePostDto(Long postId, PostCategory category, String title, String contents, Date date, String writer, int viewCount) {
         SimplePostDto dto = new SimplePostDto();
         dto.postId = postId;
+        dto.category = category;
         dto.title = title;
         dto.contents = contents;
         dto.date = date;

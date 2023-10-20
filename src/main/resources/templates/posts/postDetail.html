@@ -12,6 +12,7 @@
                 <thead>
                 <tr>
                     <th>게시글 번호</th>
+                    <th>카테고리</th>
                     <th>제목</th>
                     <th>작성자</th>
                     <th>조회수</th>
@@ -20,6 +21,7 @@
                 </tr>
                 <tr>
                     <th th:text="${form.id}"></th>
+                    <th th:text="${form.category}"></th>
                     <th th:text="${form.title}"></th>
                     <th th:text="${form.writer}"></th>
                     <th th:text="${form.viewCount}"></th>
@@ -28,7 +30,7 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td th:attr="colspan=${5}" th:text="${form.contents}"></td>
+                    <td th:attr="colspan=${6}" th:text="${form.contents}"></td>
                 </tr>
                 </tbody>
             </table>
