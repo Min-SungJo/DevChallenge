@@ -25,7 +25,6 @@ public class PostForm {
     private String contents;
     private Date date;
     private String writer;
-
     private int viewCount;
 
     public static PostForm createForm(Long id, PostCategory category, String title, String contents, Date date, String writer, int viewCount) {

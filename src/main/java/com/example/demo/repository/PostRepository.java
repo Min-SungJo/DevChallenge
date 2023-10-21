@@ -75,7 +75,7 @@ public class PostRepository {
         }
 
         // 카테고리 검색
-        if(StringUtils.hasText(String.valueOf(postSearch.getCategory()))) {
+        if (postSearch.getCategory() != null) {
             if (isFirstCondition) {
                 jpql += " where";
                 isFirstCondition = false;
@@ -95,7 +95,7 @@ public class PostRepository {
         if (StringUtils.hasText(postSearch.getTitle())) {
             query = query.setParameter("title", "%" + postSearch.getTitle() + "%");
         }
-        if( StringUtils.hasText(String.valueOf(postSearch.getCategory()))) {
+        if (postSearch.getCategory() != null) {
             query = query.setParameter("category", postSearch.getCategory());
         }
         return query.getResultList();

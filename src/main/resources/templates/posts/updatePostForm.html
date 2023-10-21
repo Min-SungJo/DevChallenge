@@ -16,19 +16,17 @@
                        placeholder="제목을 입력하세요"/></div>
             <div class="form-group">
                 <label th:for="category">카테고리</label>
-<!--                <select th:field="*{category}" class="form-control">-->
-<!--                    <option th:value="NORMAL" th:text="일반 게시글"-->
-<!--                            th:selected="${form.category == 'NORMAL'}"></option>-->
-<!--                    <option th:value="QNA" th:text="질문 게시글"-->
-<!--                            th:selected="${form.category == 'QNA'}"></option>-->
+                <select th:field="*{category}" class="form-control">
+                    <option th:value="NORMAL"th:text="'일반 게시글'"
+                            th:selected="${form.category == 'NORMAL'}"></option>
+                    <option th:value="QNA" th:text="'질문 게시글'"
+                            th:selected="${form.category == 'QNA'}"></option>
 <!--                    <option th:value="PROJECT" th:text="프로젝트 게시글"-->
 <!--                            th:selected="${form.category == 'PROJECT'}"></option>-->
 <!--                </select>-->
-                <input type="text" th:field="*{contents}" class="form-control"/>
-                <select th:field="${form.category}" class="form-select" th:errorclass="field-error">
-                    <option value=null>카테고리 선택</option>
-                    <option th:each="category : ${categories}" th:value="${category}"
-                            th:text="${category.getCategory}">일반 게시글</option>
+<!--                    <option value=null>카테고리 선택</option>-->
+<!--                    <option th:each="category : ${categories}" th:value="${category}"-->
+<!--                            th:text="${category.getCategory}">일반 게시글</option>-->
                 </select>
             </div>
             <div class="form-group">

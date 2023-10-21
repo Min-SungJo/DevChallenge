@@ -43,8 +43,8 @@ public class PostController {
     public String postListV2(HttpServletRequest request, Model model, @ModelAttribute("searchCondition") SearchConditionForm searchCondition) {
         PostSearch postSearch = new PostSearch();
         // 작성자 검색이면 작성자를 채우고, 컨텐츠 검색이면 컨텐츠를 채운다
-        String title = null;
-        if (request.getParameter("title") != null) { // 값이 있고
+        String title;
+        if (request.getParameter("title") != null) { // 검색 필터링 사용 시
             title = request.getParameter("title");
             String contents = request.getParameter("contents");
             if (title.equals("writer")) { //작성자 검색이면
@@ -54,8 +54,8 @@ public class PostController {
                 postSearch.setTitle(contents);
             }
             // 카테고리 검색
-            String category = request.getParameter("category");
-            if (category != null) {
+            if (request.getParameter("category") != null && request.getParameter("category").equals("ALL")) {
+                String category = request.getParameter("category");
                 postSearch.setCategory(PostCategory.valueOf(category));
             }
         }
