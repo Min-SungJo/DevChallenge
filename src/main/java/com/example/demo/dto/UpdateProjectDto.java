@@ -18,7 +18,7 @@ public class UpdateProjectDto {
     private String subject;
     private String summary;
     private int men;
-    private String period;
+    private String periods;
     private String skills;
     private String functions;
     private String troubleshooting;
@@ -32,7 +32,7 @@ public class UpdateProjectDto {
             String subject,
             String summary,
             int men,
-            String period,
+            String periods,
             String skills,
             String functions,
             String troubleshooting,
@@ -46,7 +46,7 @@ public class UpdateProjectDto {
         dto.subject = subject;
         dto.summary = summary;
         dto.men = men;
-        dto.period = period;
+        dto.periods = periods;
         dto.skills = skills;
         dto.functions = functions;
         dto.troubleshooting = troubleshooting;

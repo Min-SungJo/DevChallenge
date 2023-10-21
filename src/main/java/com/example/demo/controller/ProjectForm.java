@@ -23,7 +23,7 @@ public class ProjectForm {
     private String subject;
     private String summary;
     private int men;
-    private String period;
+    private String periods;
     private String skills;
     private String functions;
     private String troubleshooting;
@@ -39,7 +39,7 @@ public class ProjectForm {
              String subject,
              String summary,
              int men,
-             String period,
+             String periods,
              String skills,
              String functions,
              String troubleshooting,
@@ -54,7 +54,7 @@ public class ProjectForm {
         form.setSubject(subject);
         form.setSummary(summary);
         form.setMen(men);
-        form.setPeriod(period);
+        form.setPeriods(periods);
         form.setSkills(skills);
         form.setFunctions(functions);
         form.setTroubleshooting(troubleshooting);

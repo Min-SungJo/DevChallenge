@@ -32,7 +32,7 @@ public class Project {
     @Column
     private int men; // 인력
     @Column
-    private String period; // 기간
+    private String periods; // 기간
     @Column(columnDefinition = "TEXT")
     private String skills; // 기술
     @Column(columnDefinition = "TEXT")
@@ -58,7 +58,7 @@ public class Project {
             String subject,
             String summary,
             int men,
-            String period,
+            String periods,
             String skills,
             String functions,
             String troubleshooting,
@@ -71,7 +71,7 @@ public class Project {
         project.subject = subject;
         project.summary = summary;
         project.men = men;
-        project.period = period;
+        project.periods = periods;
         project.skills = skills;
         project.functions = functions;
         project.troubleshooting = troubleshooting;
@@ -92,7 +92,7 @@ public class Project {
             String subject,
             String summary,
             int men,
-            String period,
+            String periods,
             String skills,
             String functions,
             String troubleshooting,
@@ -104,7 +104,7 @@ public class Project {
         this.subject = subject;
         this.summary = summary;
         this.men = men;
-        this.period = period;
+        this.periods = periods;
         this.skills = skills;
         this.functions = functions;
         this.troubleshooting = troubleshooting;
