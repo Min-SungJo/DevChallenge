@@ -62,10 +62,10 @@
                                 th:selected="${searchCondition.title == 'title'}"></option>
                     </select>
                     <input type="text" th:field="*{contents}" class="form-control"/>
-                    <select th:field="${searchCondition.category}" class="form-select" th:errorclass="field-error">
-                        <option value=null>카테고리 선택</option>
+                    <select th:field="*{category}" class="form-select" th:errorclass="field-error">
+                        <option value="ALL">카테고리 선택</option>
                         <option th:each="category : ${categories}" th:value="${category}"
-                                th:text="${category.getCategory}">일반 게시글</option>
+                                th:text="${category.getCategory()}">일반 게시글</option>
                     </select>
 <!--                    <select th:field="*{category}">-->
 <!--                        <option th:value=null th:text="전체"-->
