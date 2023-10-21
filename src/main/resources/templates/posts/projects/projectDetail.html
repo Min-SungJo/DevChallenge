@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div th:if="${form}">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>게시글 번호</th>
+<!--                    <th>카테고리</th>-->
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>조회수</th>
+                    <th>날짜</th>
+
+                </tr>
+                <tr>
+                    <th th:text="${form.id}"></th>
+<!--                    <th th:text="${form.category}"></th>-->
+                    <th th:text="${form.title}"></th>
+                    <th th:text="${form.writer}"></th>
+                    <th th:text="${form.viewCount}"></th>
+                    <th th:text="${form.date}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text="주제"></td>
+                    <td th:attr="colspan=${5}" th:text="${form.subject}"></td>
+                </tr>
+                <tr>
+                    <td th:text="요약본"></td>
+                    <td th:attr="colspan=${5}" th:text="${form.summary}"></td>
+                </tr>
+                <tr>
+                    <td th:text="인원"></td>
+                    <td th:attr="colspan=${5}" th:text="${form.men}"></td>
+                </tr>
+                <tr>
+                    <td th:text="개발 기간"></td>
+                    <td th:attr="colspan=${5}" th:text="${form.period}"></td>
+                </tr>
+                <tr>
+                    <td th:text="사용 기술"></td>
+                    <td th:attr="colspan=${5}" th:text="${form.skills}"></td>
+                </tr>
+                <tr>
+                    <td th:text="개발 기능"></td>
+                    <td th:attr="colspan=${5}" th:text="${form.functions}"></td>
+                </tr>
+                <tr>
+                    <td th:text="트러블슈팅"></td>
+                    <td th:attr="colspan=${5}" th:text="${form.troubleshooting}"></td>
+                </tr>
+                <tr>
+                    <td th:text="리뷰"></td>
+                    <td th:attr="colspan=${5}" th:text="${form.review}"></td>
+                </tr>
+                <tr>
+                    <td th:text="url"></td>
+                    <td th:attr="colspan=${5}" th:text="${form.url}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="bottom-group">
+                <form th:action="@{/projects/{id}/edit (id=${form.id})}" method="get">
+                    <button type="submit" class="btn btn-primary">
+                        수정
+                    </button>
+                </form>
+                <form th:action="@{/projects/{id}/delete (id=${form.id})}" method="post">
+                    <button type="submit" class="btn btn-primary">
+                        삭제
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div th:unless="${form}">
+            <p>프로젝트 게시물을 찾을 수 없습니다.</p>
+        </div>
+    </div> <!-- /container -->
+</th:block>
+</body>
+</html>

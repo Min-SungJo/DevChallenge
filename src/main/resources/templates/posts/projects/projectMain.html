@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const rows = document.querySelectorAll(".clickable-post");
+            rows.forEach(row => {
+                row.addEventListener("click", function () {
+                    const projectId = row.getAttribute("data-projectId");
+                    if (projectId) {
+                        window.location.href = "/projects/" + projectId
+                    }
+                })
+            })
+        })
+    </script>
+    <style>
+        .bottom-group {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="jumbotron">
+            <h1>프로젝트 게시판</h1>
+        </div>
+        <div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+<!--                    <th>카테고리</th>-->
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>조회수</th>
+                    <th>날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="project : ${projects}" th:attr="data-projectId=${project.projectId}" class="clickable-post">
+                    <td th:text="${project.projectId}"></td>
+<!--                    <td th:text="${project.category}"></td>-->
+                    <td th:text="${project.title}"></td>
+                    <td th:text="${project.writer}"></td>
+                    <td th:text="${project.viewCount}"></td>
+                    <td th:text="${project.date}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="bottom-group">
+            <form th:action="@{/static}" th:object="${searchCondition}" method="get">
+                <div class="form-group">
+                    <select th:field="*{title}">
+                        <option th:value="writer" th:text="작성자"
+                                th:selected="${searchCondition.title == 'writer'}"></option>
+                        <option th:value="title" th:text="제목"
+                                th:selected="${searchCondition.title == 'title'}"></option>
+                        <option th:value="skills" th:text="기술"
+                                th:selected="${searchCondition.title == 'skills'}"></option>
+                        <option th:value="summary" th:text="요약본"
+                                th:selected="${searchCondition.title == 'summary'}"></option>
+                    </select>
+                    <input type="text" th:field="*{contents}" class="form-control"/>
+                </div>
+                <button type="submit" class="btn btn-primary bottom-btn">검색하기</button>
+            </form>
+            <p>
+                <a class="btn btn-lg btn-light bottom-btn" href="/projects">목록</a>
+            </p>
+            <p>
+                <a class="btn btn-lg btn-dark bottom-btn" href="/projects/write">글쓰기</a>
+            </p>
+        </div>
+    </div> <!-- /container -->
+</th:block>
+</body>
+</html>

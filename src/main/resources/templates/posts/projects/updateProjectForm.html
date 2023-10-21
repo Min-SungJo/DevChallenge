@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <form th:object="${form}" method="post">
+            <!-- id -->
+            <input type="hidden" th:field="*{id}"/>
+            <div class="form-group">
+                <label th:for="title">제목</label>
+                <input type="text" th:field="*{title}" class="form-control"
+                       placeholder="제목을 입력하세요"/></div>
+            <div class="form-group">
+                <label th:for="subject">주제</label>
+                <textarea th:field="*{subject}" class="form-control"
+                          placeholder="주제를 입력하세요"></textarea>
+            </div>
+            <div class="form-group">
+                <label th:for="men">인원</label>
+                <input type="number" th:field="*{men}" class="form-control"
+                />
+            </div>
+            <div class="form-group">
+                <label th:for="period">개발 기간</label>
+                <input type="text" th:field="*{period}" class="form-control"
+                       placeholder="개발 기간을 입력하세요"/>
+            </div>
+            <div class="form-group">
+                <label th:for="skills">사용 기술</label>
+                <textarea th:field="*{skills}" class="form-control"
+                          placeholder="사용 기술을 입력하세요"></textarea>
+            </div>
+            <div class="form-group">
+                <label th:for="functions">개발 기능</label>
+                <textarea th:field="*{functions}" class="form-control"
+                          placeholder="개발 기능을 입력하세요"></textarea>
+            </div>
+            <div class="form-group">
+                <label th:for="troubleshooting">트러블슈팅</label>
+                <textarea th:field="*{troubleshooting}" class="form-control"
+                          placeholder="트러블슈팅을 입력하세요"></textarea>
+            </div>
+            <div class="form-group">
+                <label th:for="review">리뷰</label>
+                <textarea th:field="*{review}" class="form-control"
+                          placeholder="리뷰를 입력하세요"></textarea>
+            </div>
+            <div class="form-group">
+                <label th:for="url">url</label>
+                <input type="url" th:field="*{url}" class="form-control"
+                />
+            </div>
+            <button id="hidden" type="submit" class="btn btn-primary">
+                수정
+            </button>
+        </form>
+        <div class="bottom-group">
+            <button id="trigger" class="btn btn-primary" style="display: none;">
+                수정
+            </button>
+            <form th:action="@{/projects/{id}/delete (id=${form.id})}" method="post">
+                <button type="submit" class="btn btn-primary">
+                    삭제
+                </button>
+            </form>
+        </div>
+    </div> <!-- /container -->
+</th:block>
+</body>
+</html>
