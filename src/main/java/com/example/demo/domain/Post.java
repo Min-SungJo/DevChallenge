@@ -1,11 +1,13 @@
 package com.example.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -38,6 +40,10 @@ public class Post {
 
     @Enumerated(value = EnumType.STRING)
     private PostStatus status; // 게시글 상태 [WRITE, DELETE]
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "comments")
+    private List<Comment> comments;
 
     public static Post createPost(Member member,PostCategory category, String title, String contents, Date date) {
         Post post = new Post();

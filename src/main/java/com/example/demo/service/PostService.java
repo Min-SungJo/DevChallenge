@@ -40,7 +40,7 @@ public class PostService {
      * 게시글 조회
      */
     public Post findOne(Long postId) {
-        return postRepository.findOne(postId);
+        return postRepository.findOne(postId).orElse(null);
     }
 
     /**
@@ -72,7 +72,7 @@ public class PostService {
     @Transactional
     public void updatePost(UpdatePostDto postDto) {
         //엔티티 조회
-        Post post = postRepository.findOne(postDto.getPostId());
+        Post post = postRepository.findOne(postDto.getPostId()).orElse(null);
         post.updatePost(postDto.getCategory(), postDto.getTitle(), postDto.getContents(), postDto.getDate());
     }
 
@@ -82,7 +82,7 @@ public class PostService {
     @Transactional
     public void deletePost(Long postId, String requestMember) {
         //게시글 엔티티 조회
-        Post post = postRepository.findOne(postId);
+        Post post = postRepository.findOne(postId).orElse(null);
         if(post.getMember().getNickname().equals(requestMember)) {
             post.delete();
         }

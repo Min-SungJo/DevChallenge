@@ -27,6 +27,14 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Post> posts;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "comments")
+    private List<Project> projects;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "comments")
+    private List<Comment> comments;
+
     public static Member createMember(String nickname, String password) { // setter 대체
         Member member = new Member();
         member.nickname = nickname;

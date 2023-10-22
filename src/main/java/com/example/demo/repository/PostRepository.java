@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -23,8 +24,8 @@ public class PostRepository {
         }
     }
 
-    public Post findOne(Long id) {
-        return em.find(Post.class, id);
+    public Optional<Post> findOne(Long id) {
+        return Optional.ofNullable(em.find(Post.class, id));
     }
 
     public List<Post> findAll() {

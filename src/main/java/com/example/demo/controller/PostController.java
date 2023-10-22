@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.Comment;
 import com.example.demo.domain.Post;
 import com.example.demo.domain.PostCategory;
 import com.example.demo.domain.PostStatus;
 import com.example.demo.dto.SimplePostDto;
 import com.example.demo.dto.UpdatePostDto;
 import com.example.demo.repository.PostSearch;
+import com.example.demo.service.CommentService;
 import com.example.demo.service.MemberService;
 import com.example.demo.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +28,7 @@ public class PostController {
 
     private final PostService postService;
     private final MemberService memberService;
+    private final CommentService commentService;
 
     @ModelAttribute("categories")
     public PostCategory[] categories() {
@@ -97,6 +100,8 @@ public class PostController {
                 post.getViewCount());
         model.addAttribute("form", form);
         postService.plusViewCount(post);
+        List<Comment> comments = commentService.findAllWithPost(postId);
+        model.addAttribute("comments", comments);
         return "posts/postDetail";
     }
 
@@ -118,12 +123,12 @@ public class PostController {
 
     @PostMapping("/posts/{postId}/edit")
     public String updatePost(@PathVariable Long postId, @ModelAttribute("form") PostForm form, HttpSession session) {
-        if (!memberService.isLogin(session)) return "redirect:/";
+        if (!memberService.isLogin(session)) return "redirect:/posts/"+postId;
         UpdatePostDto postDto = UpdatePostDto.createUpdatePostDto(
                 postId, form.getCategory(), form.getTitle(), form.getContents(), new Date()
         );
         postService.updatePost(postDto);
-        return "redirect:/";
+        return "redirect:/posts/"+postId;
     }
 
     @PostMapping("/posts/{postId}/delete")
