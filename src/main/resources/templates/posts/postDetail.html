@@ -3,6 +3,85 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
 <head>
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const btnCommentEdit = document.querySelectorAll(".comment-edit-btn1"); // 수정 -> display 전용
+            const btnCommentEdit2 = document.querySelectorAll(".comment-edit-cancel-btn"); // 수정 완료, 수정 취소 -> display 전용
+            btnCommentEdit.forEach(function (btn) { // 댓글 숨기기, btn1 숨기기, btn2(input) 보이기
+                btn.addEventListener("click", function () {
+                    const commentId = this.getAttribute('commentId');
+                    let comment = document.getElementById("comment_" + commentId);
+                    let editBtn1 = document.getElementById("comment_btn1_" + commentId);
+                    let editBtn2Complete = document.getElementById("comment_btn2_edit_complete_" + commentId);
+                    let editBtn2Cancel = document.getElementById("comment_btn2_edit_cancel_" + commentId);
+                    let commentInputElement = document.getElementById("comment_btn2_edit_input_" + commentId)
+
+                    if (comment) {
+                        comment.style.display = "none";
+                    }
+                    if (editBtn1) {
+                        editBtn1.style.display = "none";
+                    }
+                    if (editBtn2Complete) {
+                        editBtn2Complete.style.display = "block";
+                    }
+                    if (editBtn2Cancel) {
+                        editBtn2Cancel.style.display = "block";
+                    }
+                    if (commentInputElement) {
+                        commentInputElement.style.display = "block";
+                    }
+
+
+                })
+            })
+            btnCommentEdit2.forEach(function (btn) { // 댓글 보이기, btn1보이기, btn2(input) 숨기기
+                btn.addEventListener("click", function () {
+                    const commentId = this.getAttribute('commentId');
+                    let comment = document.getElementById("comment_" + commentId);
+                    let editBtn1 = document.getElementById("comment_btn1_" + commentId);
+                    let editBtn2Complete = document.getElementById("comment_btn2_edit_complete_" + commentId);
+                    let editBtn2Cancel = document.getElementById("comment_btn2_edit_cancel_" + commentId);
+                    let commentInputElement = document.getElementById("comment_btn2_edit_input_" + commentId)
+
+                    if (comment) {
+                        comment.style.display = "block";
+                    }
+                    if (editBtn1) {
+                        editBtn1.style.display = "block";
+                    }
+                    if (editBtn2Complete) {
+                        editBtn2Complete.style.display = "none";
+                    }
+                    if (editBtn2Cancel) {
+                        editBtn2Cancel.style.display = "none";
+                    }
+                    if (commentInputElement) {
+                        commentInputElement.style.display = "none";
+                    }
+                })
+            })
+        })
+    </script>
+    <style>
+        .btn {
+            width: 100px;
+            height: 50px;
+            margin: 2px;
+            padding: 12px;
+        }
+        .commentBox>div {
+            width: 100%;
+        }
+        .comment-contents {
+            width: 100%;
+            align-items: center;
+        }
+        .commentBox, .commentBox form {
+            display: flex;
+            justify-content: flex-end;
+        }
+    </style>
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -46,6 +125,70 @@
                     </button>
                 </form>
             </div>
+        </div>
+        <div>
+            <h5>댓글</h5>
+            <ul th:each="comment, commentIdx : ${comments}">
+                <li>
+                    <p th:text="'작성자: '+${comment.member.nickname}"></p>
+                    <div class="commentBox">
+                        <div th:id="'comment_'+${commentIdx.index}" class="comment-contents"
+                             th:text="${comment.contents}">
+                        </div>
+                        <div th:if="${session.loginMember == comment.member.nickname}">
+                            <a class="btn btn-primary comment-edit-btn1"
+                               th:attr="commentId=${commentIdx.index}"
+                               th:id="'comment_btn1_'+${commentIdx.index}">
+                                수정
+                            </a>
+                            <div class="comment-edit-btn2-group">
+                                <form class="" th:object="${commentForm}"
+                                      th:action="@{/posts/{postId}/comments/{commentId}/edit (postId=${comment.post.getId()}, commentId=${comment.id})}"
+                                      method="post">
+                                    <input type="hidden" th:field="*{id}" th:value="${comment.id}"/>
+                                    <input type="hidden" th:field="*{postId}" th:value="${comment.post.id}"/>
+                                    <input type="hidden" th:field="*{writer}" th:value="${comment.member.nickname}"/>
+                                    <textarea
+                                           class="comment-contents"
+                                           th:field="*{contents}" th:value="${comment.contents}"
+                                           th:id="'comment_btn2_edit_input_'+${commentIdx.index}"
+                                           style="display: none"></textarea>
+                                    <button
+                                            class="btn btn-primary comment-edit-btn2"
+                                            th:id="'comment_btn2_edit_complete_'+${commentIdx.index}"
+                                            style="display:none">
+                                        저장
+                                    </button>
+                                    <a class="btn btn-primary comment-edit-cancel-btn comment-edit-btn2"
+                                       th:id="'comment_btn2_edit_cancel_'+${commentIdx.index}"
+                                       th:attr="commentId=${commentIdx.index}"
+                                       style="display:none">
+                                        취소
+                                    </a>
+                                </form>
+                            </div>
+                            <form th:action="@{/posts/{postId}/comments/{commentId}/delete (postId=${comment.post.getId()}, commentId=${comment.id})}"
+                                  method="post">
+                                <button class="btn btn-primary comment-delete-btn">
+                                    삭제
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <span th:text="'작성일: '+${comment.date}"></span>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <form th:action="@{/posts/{id}/comments/write (id=${form.id})}" th:object="${commentForm}" method="post">
+                <div class="form-group">
+                    <label th:for="contents">내용</label>
+                    <input type="text" th:field="*{contents}" class="form-control"
+                           placeholder="내용을 입력하세요"/>
+                </div>
+                <button type="submit" class="btn btn-primary">작성</button>
+            </form>
+            <br/>
         </div>
         <div th:unless="${form}">
             <p>게시물을 찾을 수 없습니다.</p>

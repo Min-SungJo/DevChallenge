@@ -42,7 +42,7 @@ public class Post {
     private PostStatus status; // 게시글 상태 [WRITE, DELETE]
 
     @JsonIgnore
-    @OneToMany(mappedBy = "comments")
+    @OneToMany(mappedBy = "post")
     private List<Comment> comments;
 
     public static Post createPost(Member member,PostCategory category, String title, String contents, Date date) {

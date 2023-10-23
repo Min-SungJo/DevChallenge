@@ -102,6 +102,8 @@ public class PostController {
         postService.plusViewCount(post);
         List<Comment> comments = commentService.findAllWithPost(postId);
         model.addAttribute("comments", comments);
+        model.addAttribute("commentForm",new CommentForm());
+        model.addAttribute("commentUpdateForm", new CommentForm());
         return "posts/postDetail";
     }
 

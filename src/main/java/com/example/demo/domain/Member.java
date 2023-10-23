@@ -28,11 +28,11 @@ public class Member {
     private List<Post> posts;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "comments")
+    @OneToMany(mappedBy = "member")
     private List<Project> projects;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "comments")
+    @OneToMany(mappedBy = "member")
     private List<Comment> comments;
 
     public static Member createMember(String nickname, String password) { // setter 대체

@@ -18,7 +18,7 @@ public class UpdateCommentDto {
     private String contents;
     private Date date;
 
-    public static UpdateCommentDto createUpdatePostDto(Long commentId, Long postId, String contents, Date date) {
+    public static UpdateCommentDto createUpdateCommentDto(Long commentId, Long postId, String contents, Date date) {
         UpdateCommentDto dto = new UpdateCommentDto();
         dto.commentId = commentId;
         dto.postId = postId;

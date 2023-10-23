@@ -62,7 +62,7 @@ public class CommentRepository {
             } else {
                 jpql += " and";
             }
-            jpql += " p.post_id = :postId";
+            jpql += " p.id = :postId";
         }
 
         //회원 이름 검색
@@ -110,7 +110,7 @@ public class CommentRepository {
 
         // 특정 게시글에 속한 댓글 검색
         if (postId != null) {
-            jpql += " and p.post_id = :postId";
+            jpql += " and p.id = :postId";
         }
         TypedQuery<Comment> query = em.createQuery(jpql, Comment.class)
                 .setMaxResults(1000);

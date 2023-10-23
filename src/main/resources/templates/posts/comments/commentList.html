@@ -1,0 +1,14 @@
+<div>
+    <h3>댓글</h3>
+    <ul class="" th:each="comment : ${comments}">
+        <li>
+            <div th:text="${comment.contents}"></div>
+            <div>
+                <span>작성자:</span><div th:text="${comment.member.nickname}"></div>
+                <span>작성일</span><div th:text="${comment.date}"></div>
+                <button>수정</button>
+                <button>삭제</button>
+            </div>
+        </li>
+    </ul>
+</div>
