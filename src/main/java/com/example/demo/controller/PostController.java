@@ -57,7 +57,7 @@ public class PostController {
                 postSearch.setTitle(contents);
             }
             // 카테고리 검색
-            if (request.getParameter("category") != null && request.getParameter("category").equals("ALL")) {
+            if (request.getParameter("category") != null && !request.getParameter("category").equals("ALL")) {
                 String category = request.getParameter("category");
                 postSearch.setCategory(PostCategory.valueOf(category));
             }
